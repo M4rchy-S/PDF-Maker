@@ -3,6 +3,8 @@ project(testpdf LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
 
+
+
 qt_standard_project_setup()
 
 qt_add_executable(testpdf
@@ -11,8 +13,8 @@ qt_add_executable(testpdf
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-
-
+    android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
+    android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
 )
 
 target_link_libraries(testpdf
@@ -21,7 +23,10 @@ target_link_libraries(testpdf
         Qt::Widgets
 )
 
+
+
 include(GNUInstallDirs)
+
 
 install(TARGETS testpdf
     BUNDLE  DESTINATION .
@@ -35,3 +40,4 @@ qt_generate_deploy_app_script(
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${deploy_script})
+

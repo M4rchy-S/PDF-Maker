@@ -11,8 +11,11 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 
+
 #include <QDebug>
 #include <iostream>
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -32,6 +35,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QString filepath;
 
     QString FontName = QString("Helvetica");
     unsigned int FontSize = 14;

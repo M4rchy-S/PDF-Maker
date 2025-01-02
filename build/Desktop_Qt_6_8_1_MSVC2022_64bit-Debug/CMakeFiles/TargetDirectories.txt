@@ -1,7 +1,0 @@
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/testpdf.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/list_install_components.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/install.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/install/local.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Desktop_Qt_6_8_1_MSVC2022_64bit-Debug/CMakeFiles/testpdf_autogen.dir

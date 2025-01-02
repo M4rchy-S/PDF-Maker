@@ -1,3 +1,0 @@
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Android_Qt_6_8_1_Clang_x86_64-Debug/CMakeFiles/CMakeScratch/TryCompile-8y4gtz/CMakeFiles/cmTC_f2a4d.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Android_Qt_6_8_1_Clang_x86_64-Debug/CMakeFiles/CMakeScratch/TryCompile-8y4gtz/CMakeFiles/edit_cache.dir
-C:/Users/dexag/OneDrive/Documents/testpdf/build/Android_Qt_6_8_1_Clang_x86_64-Debug/CMakeFiles/CMakeScratch/TryCompile-8y4gtz/CMakeFiles/rebuild_cache.dir

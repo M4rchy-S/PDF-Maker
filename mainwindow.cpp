@@ -1,19 +1,51 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    QObject::connect(ui->pushButton, &QPushButton::clicked, this, [=](){
-        qDebug() << ui->textEdit->toPlainText();
+
+
+    // QObject::connect(ui->pushButton, &QPushButton::clicked, this, [=](){
+    //     qDebug() << ui->textEdit->toPlainText();
+    //     this->writeTextToPDF(ui->textEdit->toPlainText());
+    // });
+
+    QObject::connect(ui->editorButton, &QPushButton::clicked, this, [=]()
+    {
+        ui->stackedWidget->setCurrentIndex(0);
+    });
+    QObject::connect(ui->settingButton, &QPushButton::clicked, this, [=]()
+    {
+        ui->stackedWidget->setCurrentIndex(1);
+    });
+
+    QObject::connect(ui->saveButton, &QPushButton::clicked, this, [=]()
+    {
         this->writeTextToPDF(ui->textEdit->toPlainText());
     });
 
-    QString test_strings = "test1\ntest2\nt3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3\newgwegweegwegwgwgweeeeeeeeeeeeeeegggggggggggggggggggggggggggggggggggggggggggggggggggggggewgwegwegw";
-    this->writeTextToPDF(test_strings);
+    QObject::connect(ui->loadButton, &QPushButton::clicked, this, [=]()
+    {
+        QString path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        QString txt_path = QFileDialog::getSaveFileName(this, "Load txt file", path);
+
+        QFile file(txt_path);
+        //if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        if(!file.open(QIODevice::ReadOnly))
+            return;
+
+        ui->textEdit->setText( QString( file.readAll() ) );
+    });
+
+
+    // QString test_strings = "test1\ntest2\nt3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3\newgwegweegwegwgwgweeeeeeeeeeeeeeegggggggggggggggggggggggggggggggggggggggggggggggggggggggewgwegwegw";
+    // this->writeTextToPDF(test_strings);
 
 
 }
@@ -29,22 +61,20 @@ int MainWindow::writeTextToPDF(const QString &data_string)
     unsigned int y_pos = 0;
 
     //  Get download location
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    if( path.isEmpty())
+    if(this->filepath.isEmpty())
     {
-        return -1;
-    }
-    //QString filepath = QFileDialog::getSaveFileName(this, "Save PDF", path, "PDF Files") + QString(".pdf") ;
-    //QString filepath = QFileDialog::getSaveFileName(this, "Save PDF", path, "PDF Files")  ;
-    QString filepath = path + QString("/test.pdf");
+        QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        if( path.isEmpty())
+            return -1;
 
-    if (filepath.isEmpty())
-    {
-        return -1;
+        this->filepath = QFileDialog::getSaveFileName(this, "Save PDF", path, "PDF Files") + QString(".pdf") ;
+
+        if (this->filepath.isEmpty())
+            return -1;
     }
 
     //  Create pdfWriter
-    QPdfWriter writer(filepath);
+    QPdfWriter writer(this->filepath);
     writer.setPageSize(QPageSize(QPageSize::A4));
     writer.setCreator("Creator test");
     writer.setResolution(300);
@@ -79,7 +109,7 @@ int MainWindow::writeTextToPDF(const QString &data_string)
     //  -----------------------------------------
 
     //int TextWidth = widthPixels * 1.10 - 2 * this->padding;
-    int TextWidth = widthPixels  - 2 * this->padding;
+    int TextWidth = widthPixels * 1.05  - 2 * this->padding;
 
 
     //  Print data to file
@@ -145,3 +175,5 @@ void MainWindow::printString(QPdfWriter &writer,QPainter &painter, QString &text
     }
     y_pos += fontMetrics.height() * 2 +  this->spacing;
 }
+
+
