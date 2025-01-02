@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/font">
+        <file alias="Roboto.ttf">fonts/Roboto-Medium.ttf</file>
+        <file alias="Lobster.ttf">fonts/Lobster-Regular.ttf</file>
+    </qresource>
+</RCC>
