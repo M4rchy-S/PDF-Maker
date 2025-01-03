@@ -10,23 +10,30 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 
-
-    // QObject::connect(ui->pushButton, &QPushButton::clicked, this, [=](){
-    //     qDebug() << ui->textEdit->toPlainText();
-    //     this->writeTextToPDF(ui->textEdit->toPlainText());
-    // });
-
     QObject::connect(ui->editorButton, &QPushButton::clicked, this, [=]()
     {
+        ui->title->setText(QString("PDF Editor"));
         ui->stackedWidget->setCurrentIndex(0);
     });
     QObject::connect(ui->settingButton, &QPushButton::clicked, this, [=]()
     {
+        ui->title->setText(QString("Settings Paramaters"));
         ui->stackedWidget->setCurrentIndex(1);
     });
 
     QObject::connect(ui->saveButton, &QPushButton::clicked, this, [=]()
     {
+    #ifdef DEBUG
+        qDebug() << ui->spinBoxFSize->value() ;
+        qDebug() << ui->comboBoxFamily->currentText() ;
+        qDebug() << ui->spinBoxOffsets->value() ;
+        qDebug() << ui->spinBoxTextSpacing->value() ;
+    #endif
+        this->FontSize = ui->spinBoxFSize->value() ;
+        this->FontName = ui->comboBoxFamily->currentText() ;
+        this->padding =  ui->spinBoxOffsets->value() ;
+        this->spacing =  ui->spinBoxTextSpacing->value() ;
+
         this->writeTextToPDF(ui->textEdit->toPlainText());
     });
 
@@ -36,16 +43,12 @@ MainWindow::MainWindow(QWidget *parent)
         QString txt_path = QFileDialog::getSaveFileName(this, "Load txt file", path);
 
         QFile file(txt_path);
-        //if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         if(!file.open(QIODevice::ReadOnly))
             return;
 
         ui->textEdit->setText( QString( file.readAll() ) );
     });
 
-
-    // QString test_strings = "test1\ntest2\nt3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3 t3\newgwegweegwegwgwgweeeeeeeeeeeeeeegggggggggggggggggggggggggggggggggggggggggggggggggggggggewgwegwegw";
-    // this->writeTextToPDF(test_strings);
 
 
 }
@@ -57,8 +60,6 @@ MainWindow::~MainWindow()
 
 int MainWindow::writeTextToPDF(const QString &data_string)
 {
-    unsigned int x_pos = this->padding;
-    unsigned int y_pos = 0;
 
     //  Get download location
     if(this->filepath.isEmpty())
@@ -91,20 +92,25 @@ int MainWindow::writeTextToPDF(const QString &data_string)
     QFontMetrics fontMetrics(font);
     painter.setFont(font);
 
+    unsigned int x_pos = this->padding;
+    unsigned int y_pos = fontMetrics.height() + 5;
+
+
     //          DEBUG INFO
     QSizeF pageSizeMM = writer.pageLayout().pageSize().size(QPageSize::Millimeter);
-    qDebug() << "Page size in millimeters:" << pageSizeMM;
-
     // Получаем разрешение
     int dpi = writer.resolution();
-    qDebug() << "Resolution (DPI):" << dpi;
 
     // Переводим размеры в пиксели
     int widthPixels = static_cast<int>(pageSizeMM.width() * dpi / 25.4);
     int heightPixels = static_cast<int>(pageSizeMM.height() * dpi / 25.4);
-    qDebug() << "Page size in pixels: " << widthPixels << "x" << heightPixels;
 
-    std::cout << "String size in pixels :" << fontMetrics.horizontalAdvance(data_string) * this->coeff << std::endl;
+    #ifdef DEBUG
+    qDebug() << "Page size in millimeters:" << pageSizeMM;
+    qDebug() << "Resolution (DPI):" << dpi;
+    qDebug() << "Page size in pixels: " << widthPixels << "x" << heightPixels;
+    #endif
+    // std::cout << "String size in pixels :" << fontMetrics.horizontalAdvance(data_string) * this->coeff << std::endl;
 
     //  -----------------------------------------
 
@@ -113,11 +119,10 @@ int MainWindow::writeTextToPDF(const QString &data_string)
 
 
     //  Print data to file
-    QStringList lines = data_string.split("\n");
     QString text_line = "";
 
     //  lines
-    for(const QString &line : lines )
+    for(const QString &line : data_string.split("\n") )
     {
 
         //  word

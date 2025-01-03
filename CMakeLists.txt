@@ -13,8 +13,8 @@ qt_add_executable(testpdf
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
-    android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
+    myapp.rc
+    icons.qrc
 )
 
 target_link_libraries(testpdf

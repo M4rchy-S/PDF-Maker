@@ -11,10 +11,9 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 
-
+#ifdef DEBUG
 #include <QDebug>
-#include <iostream>
-
+#endif
 
 
 QT_BEGIN_NAMESPACE
